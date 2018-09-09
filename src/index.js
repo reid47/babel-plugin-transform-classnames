@@ -6,11 +6,11 @@ export default function(babel) {
   const isStr = t.isStringLiteral;
 
   return {
-    name: 'class-names-transform',
+    name: 'transform-classnames',
     visitor: {
       ImportDeclaration(path, state) {
         const { source, specifiers } = path.node;
-        if (!isStr(source, { value: 'babel-plugin-classnames' })) return;
+        if (!isStr(source, { value: 'babel-plugin-transform-classnames' })) return;
         if (specifiers.length === 1 && t.isImportDefaultSpecifier(specifiers[0])) {
           state.alias = specifiers[0].local.name;
           path.remove();
@@ -25,26 +25,34 @@ export default function(babel) {
             if (isStr(arg)) {
               if (parts.length) arg.value = ' ' + arg.value;
               parts.push(arg);
-            } else if (t.isIdentifier(arg)) {
-              parts.push(str(' '));
-              parts.push(arg);
-            } else if (t.isObjectExpression(arg)) {
+              return;
+            }
+
+            if (t.isIdentifier(arg)) {
+              if (arg.name === 'undefined') return;
+              if (parts.length) parts.push(str(' '));
+              parts.push(t.logicalExpression('||', arg, str('')));
+              return;
+            }
+
+            if (t.isObjectExpression(arg)) {
               arg.properties.forEach(prop => {
-                if (prop.computed) return; // TODO
-                const className = prop.key.name;
+                const className = prop.computed ? prop.key : str(' ' + prop.key.name);
 
                 if (t.isBooleanLiteral(prop.value) || t.isNumericLiteral(prop.value)) {
                   if (prop.value.value) {
-                    parts.push(str(' '));
-                    parts.push(str(className));
+                    parts.push(className);
                   }
                   return;
                 }
 
-                parts.push(str(' '));
-                parts.push(t.conditionalExpression(prop.value, str(className), str('')));
+                parts.push(t.conditionalExpression(prop.value, className, str('')));
               });
+              return;
             }
+
+            if (parts.length) parts.push(str(' '));
+            parts.push(arg);
           });
 
           const newNode = parts.reduce((expr, part) => {
@@ -66,7 +74,7 @@ export default function(babel) {
             return bin('+', expr, part);
           }, null);
 
-          path.replaceWith(newNode);
+          path.replaceWith(newNode || str(''));
         }
       }
     }
