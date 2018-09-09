@@ -1,0 +1,8 @@
+{
+  "name": "babel-plugin-transform-classnames",
+  "version": "1.0.0",
+  "description": "Babel plugin to combine class names at build time",
+  "main": "index.js",
+  "author": "Reid Mitchell <reidmitchell1@gmail.com>",
+  "license": "MIT"
+}
