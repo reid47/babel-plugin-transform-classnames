@@ -5,7 +5,7 @@ A Babel plugin that optimizes the composition of class names in React components
 Input:
 
 ```js
-import cn from 'babel-plugin-classnames';
+import cn from 'babel-plugin-transform-classnames';
 
 function MyComponent(props) {
   return (
@@ -28,11 +28,11 @@ function MyComponent(props) {
   return (
     <div
       className={
-        'hello world always ' +
+        'hello world ' +
         (something || '') +
-        (props.test ? 'wow' : '') +
-        ' ' +
-        (props.size > 100 ? 'big' : '')
+        ' always' +
+        (props.test ? ' wow' : '') +
+        (props.size > 100 ? ' big' : '')
       }
     />
   );
