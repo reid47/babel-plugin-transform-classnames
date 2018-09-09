@@ -10,7 +10,7 @@ import cn from 'babel-plugin-classnames';
 function MyComponent(props) {
   return (
     <div
-      className={cn('hello', 'world', {
+      className={cn('hello', 'world', something, {
         always: true,
         never: false,
         wow: props.test,
@@ -28,9 +28,15 @@ function MyComponent(props) {
   return (
     <div
       className={
-        'hello world always ' + (props.test ? 'wow' : '') + ' ' + (props.size > 100 ? 'big' : '')
+        'hello world always ' +
+        (something || '') +
+        (props.test ? 'wow' : '') +
+        ' ' +
+        (props.size > 100 ? 'big' : '')
       }
     />
   );
 }
 ```
+
+This removes your dependency on a library like `classnames` and means that no extra work is done to join your class names together at runtime.
