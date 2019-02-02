@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`all variables 1`] = `"(some || \\"\\") + \\" \\" + (things || \\"\\") + \\" \\" + (here || \\"\\");"`;
+
+exports[`multiple object literals 1`] = `"\\"always string\\" + (world ? \\" hello\\" : \\"\\") + (obj ? \\" another\\" : \\"\\");"`;
+
+exports[`object literal + strings 1`] = `"'hey' + (maybe ? \\" key\\" : \\"\\") + \\" nice wow\\";"`;
+
+exports[`object literal 1`] = `"maybe ? \\" key\\" : \\"\\";"`;
+
+exports[`object literal with boolean keys 1`] = `"\\"always\\";"`;
+
+exports[`object literal with multiple keys 1`] = `"(maybe ? \\" key\\" : \\"\\") + (world ? \\" hello\\" : \\"\\");"`;
+
+exports[`string literals 1`] = `"\\"wow cool strings\\";"`;
+
+exports[`string literals with variable at beginning 1`] = `"(something || \\"\\") + \\" wow cool strings\\";"`;
+
+exports[`string literals with variable at end 1`] = `"\\"wow cool strings \\" + (something || \\"\\");"`;
+
+exports[`string literals with variable in the middle 1`] = `"\\"wow \\" + (something || \\"\\") + \\" cool strings\\";"`;

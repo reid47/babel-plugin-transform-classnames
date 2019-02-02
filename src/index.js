@@ -6,16 +6,18 @@ export default function(babel) {
   const isStr = t.isStringLiteral;
 
   return {
-    name: 'transform-classnames',
+    name: 'classnames.macro',
+
     visitor: {
       ImportDeclaration(path, state) {
         const { source, specifiers } = path.node;
-        if (!isStr(source, { value: 'babel-plugin-transform-classnames' })) return;
+        if (!isStr(source, { value: 'classnames.macro' })) return;
         if (specifiers.length === 1 && t.isImportDefaultSpecifier(specifiers[0])) {
           state.alias = specifiers[0].local.name;
           path.remove();
         }
       },
+
       CallExpression(path, state) {
         if (t.isIdentifier(path.node.callee, { name: state.alias })) {
           const args = path.node.arguments;
